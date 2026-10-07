@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FiMail, FiLock } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
+import AuthLayout from "../../components/AuthLayout";
 
 export default function Login() {
   const { login } = useAuth();
@@ -24,7 +26,7 @@ export default function Login() {
     setLoading(true);
     try {
       const user = await login(form.email, form.password);
-      toast.success(`Welcome, ${user.name}!`);
+      toast.success(`Welcome back, ${user.name}!`);
       navigate(user.role === "admin" ? "/admin" : "/dashboard");
     } catch (err) {
       toast.error(err.response?.data?.detail || "Login failed");
@@ -34,41 +36,34 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 p-4">
-      <form onSubmit={handleSubmit} className="card w-full max-w-sm bg-base-100 shadow-xl p-6 space-y-4">
-        <h1 className="text-2xl font-bold text-center">Login</h1>
-
+    <AuthLayout title="Welcome back 👋" subtitle="Login to manage your complaints">
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <input
-            type="email"
-            placeholder="Email"
-            className="input input-bordered w-full"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-          />
+          <label className="input input-bordered flex items-center gap-2 w-full">
+            <FiMail className="opacity-50" />
+            <input type="email" className="grow" placeholder="Email address" value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          </label>
           {errors.email && <p className="text-error text-sm mt-1">{errors.email}</p>}
         </div>
-
         <div>
-          <input
-            type="password"
-            placeholder="Password"
-            className="input input-bordered w-full"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-          />
+          <label className="input input-bordered flex items-center gap-2 w-full">
+            <FiLock className="opacity-50" />
+            <input type="password" className="grow" placeholder="Password" value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })} />
+          </label>
           {errors.password && <p className="text-error text-sm mt-1">{errors.password}</p>}
         </div>
-
-        <button className="btn btn-primary w-full" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-
-        <div className="flex justify-between text-sm">
-          <Link to="/forgot-password" className="link link-primary">Forgot password?</Link>
-          <Link to="/signup" className="link link-primary">Create account</Link>
+        <div className="text-right">
+          <Link to="/forgot-password" className="link link-primary text-sm">Forgot password?</Link>
         </div>
+        <button className="btn btn-primary w-full" disabled={loading}>
+          {loading ? <span className="loading loading-spinner" /> : "Login"}
+        </button>
+        <p className="text-sm text-center">
+          New here? <Link to="/signup" className="link link-primary font-semibold">Create an account</Link>
+        </p>
       </form>
-    </div>
+    </AuthLayout>
   );
 }

@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
-    <footer className="footer footer-center p-4 bg-base-300 text-base-content">
-      <p>© 2026 City Complaint & Service Request Platform</p>
+    <footer className="border-t border-base-300 bg-base-100 py-6 text-center text-sm text-base-content/60">
+      © 2026 CityCare · City Complaint & Service Request Platform
     </footer>
   );
 }

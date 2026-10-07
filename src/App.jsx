@@ -9,6 +9,7 @@ import Categories from "./pages/admin/Categories";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AdminRoute from "./routes/AdminRoute";
+import Home from "./pages/Home";
 
 export default function App() {
   return (

@@ -1,9 +1,13 @@
-const styles = {
-  pending: "badge-warning",
-  in_progress: "badge-info",
-  resolved: "badge-success",
+import { FiClock, FiLoader, FiCheckCircle } from "react-icons/fi";
+
+const map = {
+  pending: { cls: "badge-warning", icon: FiClock, label: "Pending" },
+  in_progress: { cls: "badge-info", icon: FiLoader, label: "In progress" },
+  resolved: { cls: "badge-success", icon: FiCheckCircle, label: "Resolved" },
 };
 
 export default function StatusBadge({ status }) {
-  return <span className={`badge ${styles[status] || ""}`}>{status.replace("_", " ")}</span>;
+  const s = map[status] || map.pending;
+  const Icon = s.icon;
+  return <span className={`badge ${s.cls} badge-soft gap-1 font-medium`}><Icon /> {s.label}</span>;
 }

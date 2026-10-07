@@ -1,2 +1,28 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: civic --default;
+}
+@plugin "daisyui/theme" {
+  name: "civic";
+  default: true;
+  color-scheme: light;
+  --color-primary: #4f46e5;
+  --color-primary-content: #ffffff;
+  --color-secondary: #d946ef;
+  --color-accent: #06b6d4;
+  --color-base-100: #ffffff;
+  --color-base-200: #f4f5fb;
+  --color-base-300: #e5e7f0;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  --color-error: #ef4444;
+  --radius-box: 1rem;
+  --radius-field: 0.75rem;
+  --radius-selector: 9999px;
+}
+
+body { font-family: "Inter", system-ui, sans-serif; }
+
+.fade-in { animation: fadeIn .5s ease both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }

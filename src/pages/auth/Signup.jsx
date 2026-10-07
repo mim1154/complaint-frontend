@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FiUser, FiMail, FiLock } from "react-icons/fi";
 import api from "../../api/axios";
+import AuthLayout from "../../components/AuthLayout";
+
+const fields = [
+  { key: "name", type: "text", placeholder: "Full name", icon: FiUser },
+  { key: "email", type: "email", placeholder: "Email address", icon: FiMail },
+  { key: "password", type: "password", placeholder: "Password (min 6 chars)", icon: FiLock },
+];
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -34,31 +42,25 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 p-4">
-      <form onSubmit={handleSubmit} className="card w-full max-w-sm bg-base-100 shadow-xl p-6 space-y-4">
-        <h1 className="text-2xl font-bold text-center">Sign Up</h1>
-
-        {["name", "email", "password"].map((field) => (
-          <div key={field}>
-            <input
-              type={field === "password" ? "password" : field === "email" ? "email" : "text"}
-              placeholder={field[0].toUpperCase() + field.slice(1)}
-              className="input input-bordered w-full"
-              value={form[field]}
-              onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-            />
-            {errors[field] && <p className="text-error text-sm mt-1">{errors[field]}</p>}
+    <AuthLayout title="Create account ✨" subtitle="Join CityCare and make your city better">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {fields.map(({ key, type, placeholder, icon: Icon }) => (
+          <div key={key}>
+            <label className="input input-bordered flex items-center gap-2 w-full">
+              <Icon className="opacity-50" />
+              <input type={type} className="grow" placeholder={placeholder} value={form[key]}
+                onChange={(e) => setForm({ ...form, [key]: e.target.value })} />
+            </label>
+            {errors[key] && <p className="text-error text-sm mt-1">{errors[key]}</p>}
           </div>
         ))}
-
         <button className="btn btn-primary w-full" disabled={loading}>
-          {loading ? "Creating..." : "Sign Up"}
+          {loading ? <span className="loading loading-spinner" /> : "Sign Up"}
         </button>
-
         <p className="text-sm text-center">
-          Already have an account? <Link to="/login" className="link link-primary">Login</Link>
+          Already have an account? <Link to="/login" className="link link-primary font-semibold">Login</Link>
         </p>
       </form>
-    </div>
+    </AuthLayout>
   );
 }

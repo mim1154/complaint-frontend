@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FiMail } from "react-icons/fi";
 import api from "../../api/axios";
+import AuthLayout from "../../components/AuthLayout";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -30,19 +32,23 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 p-4">
-      <form onSubmit={submit} className="card w-full max-w-sm bg-base-100 shadow-xl p-6 space-y-4">
-        <h1 className="text-2xl font-bold text-center">Forgot Password</h1>
+    <AuthLayout title="Forgot password 🔑" subtitle="Enter your email and we'll generate a reset token">
+      <form onSubmit={submit} className="space-y-4">
         <div>
-          <input type="email" placeholder="Your email" className="input input-bordered w-full"
-            value={email} onChange={(e) => setEmail(e.target.value)} />
+          <label className="input input-bordered flex items-center gap-2 w-full">
+            <FiMail className="opacity-50" />
+            <input type="email" className="grow" placeholder="Your email" value={email}
+              onChange={(e) => setEmail(e.target.value)} />
+          </label>
           {error && <p className="text-error text-sm mt-1">{error}</p>}
         </div>
         <button className="btn btn-primary w-full" disabled={loading}>
-          {loading ? "Please wait..." : "Get reset token"}
+          {loading ? <span className="loading loading-spinner" /> : "Get reset token"}
         </button>
-        <p className="text-sm text-center"><Link to="/login" className="link link-primary">Back to login</Link></p>
+        <p className="text-sm text-center">
+          <Link to="/login" className="link link-primary">Back to login</Link>
+        </p>
       </form>
-    </div>
+    </AuthLayout>
   );
 }

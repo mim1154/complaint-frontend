@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { FiKey, FiLock } from "react-icons/fi";
 import api from "../../api/axios";
+import AuthLayout from "../../components/AuthLayout";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -32,24 +34,31 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 p-4">
-      <form onSubmit={submit} className="card w-full max-w-sm bg-base-100 shadow-xl p-6 space-y-4">
-        <h1 className="text-2xl font-bold text-center">Reset Password</h1>
+    <AuthLayout title="Reset password 🔒" subtitle="Choose a new password for your account">
+      <form onSubmit={submit} className="space-y-4">
         <div>
-          <input placeholder="Reset token" className="input input-bordered w-full"
-            value={token} onChange={(e) => setToken(e.target.value)} />
+          <label className="input input-bordered flex items-center gap-2 w-full">
+            <FiKey className="opacity-50" />
+            <input className="grow" placeholder="Reset token" value={token}
+              onChange={(e) => setToken(e.target.value)} />
+          </label>
           {errors.token && <p className="text-error text-sm mt-1">{errors.token}</p>}
         </div>
         <div>
-          <input type="password" placeholder="New password" className="input input-bordered w-full"
-            value={password} onChange={(e) => setPassword(e.target.value)} />
+          <label className="input input-bordered flex items-center gap-2 w-full">
+            <FiLock className="opacity-50" />
+            <input type="password" className="grow" placeholder="New password" value={password}
+              onChange={(e) => setPassword(e.target.value)} />
+          </label>
           {errors.password && <p className="text-error text-sm mt-1">{errors.password}</p>}
         </div>
         <button className="btn btn-primary w-full" disabled={loading}>
-          {loading ? "Resetting..." : "Reset password"}
+          {loading ? <span className="loading loading-spinner" /> : "Reset password"}
         </button>
-        <p className="text-sm text-center"><Link to="/login" className="link link-primary">Back to login</Link></p>
+        <p className="text-sm text-center">
+          <Link to="/login" className="link link-primary">Back to login</Link>
+        </p>
       </form>
-    </div>
+    </AuthLayout>
   );
 }
